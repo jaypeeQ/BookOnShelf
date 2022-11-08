@@ -1,0 +1,64 @@
+<?php
+include '../../privateBoS/connection.php';
+var_dump($_POST);
+$sqlauthor = 'SELECT authorname, authorid FROM tbauthor';
+$sth = $conn->prepare($sqlauthor);
+$sth->execute();
+while ($rsAuthor = $sth->fetch(PDO::FETCH_ASSOC)):{
+    echo $_POST['author'];
+    echo $rsAuthor['authorname'];
+    if ($_POST['author'] != $rsAuthor['authorname']) {
+        include '../../privateBoS/connection.php';
+        $sqlauthorcheck = 'SELECT authorname, authorid FROM tbauthor WHERE authorname =:author';
+        $sth = $conn->prepare($sqlauthorcheck);
+        $sth->bindParam(':author', $_POST['author']);
+        $sth->execute();
+        while ($rscheck = $sth->fetch(PDO::FETCH_ASSOC)): {
+
+        include '../../privateBoS/connection.php';
+        $sqlauthoradd = 'INSERT INTO tbauthor (authorname) VALUES (:author)';
+        $sth = $conn->prepare($sqlauthoradd);
+        $sth->bindParam(':author', $_POST['author']);
+        $sth->execute();
+echo "if 1 works";
+
+    }endwhile;
+}endwhile;
+include '../../privateBoS/connection.php';
+$sqlauthor2 = 'SELECT authorname, authorid FROM tbauthor INNER JOIN ';
+$sth2 = $conn->prepare($sqlauthor2);
+$sth2->execute();
+while ($rsAuthor2 = $sth->fetch(PDO::FETCH_ASSOC)):{
+
+    if ($_POST['author'] == $rsAuthor2['authorname']) {
+        include '../../privateBoS/connection.php';
+
+            $sql = 'UPDATE books SET title = :title, authorid = :authorid, genreid = :genre, langid = :lang, page_amount = :pages, stock_amount = :stock,
+                             bookinfo =:info, xborrowed =:xborrowed, xreserved =:xreserved
+                    WHERE isbn = :isbn';
+
+            $sth = $conn->prepare($sql);
+            $sth->bindParam(':title', $_POST['title']);
+            $sth->bindParam(':authorid', $rsAuthor2['authorid']);
+            $sth->bindParam(':genre', $_POST['genre']);
+            $sth->bindParam(':pages', $_POST['pages']);
+            $sth->bindParam(':lang', $_POST['lang']);
+            $sth->bindParam(':stock', $_POST['stock']);
+            $sth->bindParam(':info', $_POST['info']);
+            $sth->bindParam(':isbn', $_POST['isbn']);
+            $sth->bindParam(':xborrowed', $_POST['xborrowed']);
+            $sth->bindParam(':xreserved', $_POST['xreserved']);
+            $sth->execute();
+            $_SESSION['message'] = 'You have successfully edited '.$rsAuthor['title'].'!';
+        echo "if 2 works";
+
+    }
+
+
+
+
+}endwhile;
+
+
+    //header('Location: ../index.php');
+?>

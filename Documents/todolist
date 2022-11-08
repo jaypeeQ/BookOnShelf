@@ -1,0 +1,21 @@
+overview customer: Add borrow button / reserve button(if no books in stock)
+                   Able to choose language.
+overview admin: User-friendly interface
+book management {
+    book add: adding book to database with confirmation message + warning if book is present(exception with different language).
+
+}
+
+
+
+DATABASE TABLE
+
+BOOK
+book id
+title
+author
+genre
+stock
+
+BOOK LANGUAGES
+book id -> 1-to-many -> languages
